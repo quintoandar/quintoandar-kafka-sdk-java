@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '5.1.4.RELEASE'
+    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.2.4.RELEASE'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
+}
+
