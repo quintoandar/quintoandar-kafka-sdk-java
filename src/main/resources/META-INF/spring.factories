@@ -1,0 +1,11 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+br.com.quintoandar.sdk.kafka.config.consumer.factory.ConsumerFactoryConfiguration,\
+br.com.quintoandar.sdk.kafka.config.producer.factory.ProducerFactoryConfiguration,\
+br.com.quintoandar.sdk.kafka.config.listener.container.factory.ConcurrentJsonKafkaConfiguration,\
+br.com.quintoandar.sdk.kafka.config.listener.container.factory.SimpleJsonKafkaConfiguration,\
+br.com.quintoandar.sdk.kafka.config.KafkaProperties,\
+br.com.quintoandar.sdk.kafka.config.ObjectMapperConfiguration,\
+br.com.quintoandar.sdk.kafka.config.taskexecutor.AsyncTaskExecutorConfiguration,\
+br.com.quintoandar.sdk.kafka.config.producer.template.KafkaTemplateConfiguration,\
+br.com.quintoandar.sdk.kafka.config.producer.KafkaProducerSender,\
+br.com.quintoandar.sdk.kafka.config.consumer.filter.LogRecordFilterStrategy
