@@ -16,9 +16,10 @@ public class LogRecordFilterStrategy implements RecordFilterStrategy {
     private static final String KAFKA_SERIALIZED_KEY_SIZE = "kafka.serializedKeySize";
     private static final String KAFKA_SERIALIZED_VALUE_SIZE = "kafka.serializedValueSize";
     private static final String KAFKA_HEADERS = "kafka.headers";
-    private static final String KAFKA_KEY = "kafka.key";
-    private static final String KAFKA_VALUE = "kafka.value";
-    private static final String KAFKA_PAYLOAD = "kafka.payload";
+    private static final String KAFKA_KEY_LENGTH = "kafka.keyLength";
+    private static final String KAFKA_KEY_TYPE = "kafka.keyType";
+    private static final String KAFKA_VALUE_LENGTH = "kafka.valueLength";
+    private static final String KAFKA_VALUE_TYPE = "kafka.valueType";
 
     @Override
     public boolean filter(final ConsumerRecord consumerRecord) {
@@ -34,10 +35,23 @@ public class LogRecordFilterStrategy implements RecordFilterStrategy {
         MDC.put(key(baseKey, KAFKA_SERIALIZED_KEY_SIZE), String.valueOf(consumerRecord.serializedKeySize()));
         MDC.put(key(baseKey, KAFKA_SERIALIZED_VALUE_SIZE), String.valueOf(consumerRecord.serializedValueSize()));
         MDC.put(key(baseKey, KAFKA_HEADERS), String.valueOf(consumerRecord.headers()));
-        MDC.put(key(baseKey, KAFKA_KEY), String.valueOf(consumerRecord.key()));
-        MDC.put(key(baseKey, KAFKA_VALUE), String.valueOf(consumerRecord.value()));
-        MDC.put(key(baseKey, KAFKA_PAYLOAD), String.valueOf(consumerRecord));
+        putObjectSummary(baseKey, KAFKA_KEY_TYPE, KAFKA_KEY_LENGTH, consumerRecord.key());
+        putObjectSummary(baseKey, KAFKA_VALUE_TYPE, KAFKA_VALUE_LENGTH, consumerRecord.value());
         return false;
+    }
+
+    private static void putObjectSummary(
+            final String baseKey,
+            final String typeSuffix,
+            final String lengthSuffix,
+            final Object value) {
+        if (value == null) {
+            MDC.put(key(baseKey, typeSuffix), "null");
+            MDC.put(key(baseKey, lengthSuffix), "0");
+        } else {
+            MDC.put(key(baseKey, typeSuffix), value.getClass().getSimpleName());
+            MDC.put(key(baseKey, lengthSuffix), String.valueOf(String.valueOf(value).length()));
+        }
     }
 
     private String key(String base, String append) {
